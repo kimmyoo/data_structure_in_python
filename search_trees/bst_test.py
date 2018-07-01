@@ -30,3 +30,12 @@ print (key, value)
 for key in bst:
     print ('-------')
     print (key, bst[key])
+    
+#test of find_position
+print (bst.find_position(1).value())
+print (bst.find_position(0).value())
+
+rcptr = bst.find_ge(4)
+print (rcptr)
+
+

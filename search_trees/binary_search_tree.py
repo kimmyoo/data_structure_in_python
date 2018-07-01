@@ -21,7 +21,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
         else:
             if self.right(p) is not None:
                 return self._subtree_search(self.right(p), k)
-        #unsuccesful search and return the position which doesn't exit in the tree
+        #unsuccesful search and return the last position searched
         return p
     
     def _subtree_first_position(self, p):
@@ -170,9 +170,19 @@ class TreeMap(LinkedBinaryTree, MapBase):
         raise KeyError('Key Error:' + repr(k))
 
 
-
-
-
+    def find_ge(self, k):
+        """return key, value pairs with least key greater or equal to 
+        k; return None is there doesn't exist such a key"""
+        if self.is_empty():
+            return None
+        else:
+            p = self.find_position(k)
+            if p.key() < k:
+                p = self.after(p)
+            if p is not None:
+                return (p.key(), p.value())
+            else: 
+                return None
 
 
 
