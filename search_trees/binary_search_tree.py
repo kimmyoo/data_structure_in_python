@@ -93,7 +93,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
             return None
         else:
             p = self._subtree_search(self.root(), k)
-            #self._rebalance_access(p) 
+            self._rebalance_access(p) 
             return p
     
     def find_min(self):
@@ -112,7 +112,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
             raise KeyError('key Error:' + repr(k))
         else:
             p = self._subtree_search(self.root(), k)
-            #self._rebalance_access(p)
+            self._rebalance_access(p)
             #this might be an unsuccessful search, so deal with this...
             if k!=p.key():
                 raise KeyError('key error:'+repr(k))
@@ -129,7 +129,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
             if p.key() == k:
                 #it's not p.value()!!
                 p.element()._value = v
-                #self._rebalance_access(p)
+                self._rebalance_access(p)
                 return
             #didn't find k in current tree; create a new object of Item
             # and add to either left or right of the last node searched
@@ -139,7 +139,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
                     leaf = self._add_right(p, item)
                 else:
                     leaf = self._add_left(p, item)
-            #self._rebalance_insert(leaf)
+            self._rebalance_insert(leaf)
 
     def __iter__(self):
         p = self.first()
@@ -154,10 +154,10 @@ class TreeMap(LinkedBinaryTree, MapBase):
             replacement = self._subtree_last_position(self.left(p))
             self._replace(p, replacement.element()) # _replace is from LinkedBinaryTree class
             p = replacement # replace position reference
-        # parent = self.parent(p)
+        parent = self.parent(p)
         # node p now only has one child at most
         self._delete(p) # refer to LinkedBinaryTree class
-        # self._rebalance_delete(parent)
+        self._rebalance_delete(parent)
 
     def __delitem__(self, k):
         """remove item associated with k """
@@ -166,7 +166,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
             if k == p.key():
                 self.delete(p)
                 return
-            #self._rebalance_access(p)
+            self._rebalance_access(p)
         raise KeyError('Key Error:' + repr(k))
 
 
@@ -184,9 +184,66 @@ class TreeMap(LinkedBinaryTree, MapBase):
             else: 
                 return None
 
+    #these nonpublic methods must be implemented by subclasses
+    def _rebalance_access(self, p): pass
+    def _rebalance_delete(self, p): pass
+    def _rebalance_insert(self, p): pass
+    
+    #the following methods enables restruccturing of the balanced search tree
+    def _relink(self, parent, child, make_left_child):
+        "make_left_child tpye: bool"
+        if make_left_child:
+            parent._left = child
+        else:
+            parent.right = child
+        #don't forget to link child back to parent
+        if child is not None:
+            child.parent = parent
 
 
+    def _rotate(self, p):
+        "rotate p above its parent"
+        x = p._node
+        y = x.parent # assume x's parent exists so rotate cannot be happening at root
+        z = y.parent # grandparent might not exist
+        #if x doesn't have grandparent, x will become the root; link x' s parent to None
+        if z is None:
+            self._root = x
+            x.parent = None
+        #else x will become direct child of z (either right or left)
+        #the following one line is brilliant. LEARN!
+        else:
+            # if y is z's left child, x will become the left child of z
+            # if y is not z's left child (then it must be right child);
+            # x will become the right child of z
+            self._relink(z, x, y == z._left)
+        #rotate between x and y
+        #scenario#1: x is the left child of y
+             #~ z                       z
+            #~ / \                     / \
+           #~ y   a     --->          x   a
+          #~ / \                     / \
+         #~ x   b                   c   y
+        #~ / \                         / \
+       #~ c   d                       d   b
+        if x == y._left:
+            #x.right becomes the left child of y; breaking the link between y and x first
+            self._relink(y, x._right, True)
+            #y becomes the right child of x
+            self._relink(x, y, False)
+        else: # mirrored operation
+             #~ z                       z
+            #~ / \                     / \
+           #~ y   a     --->          x   a
+          #~ / \                     / \
+         #~ b   x                   y   d
+        #~     / \                 / \
+       #~     c   d               b   c
 
+            self._relink(y, x._left, False)
+            self._relink(x, y, True)
+
+            
 
 
 

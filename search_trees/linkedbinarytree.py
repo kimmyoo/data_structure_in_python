@@ -9,7 +9,7 @@ class LinkedBinaryTree (BinaryTree):
             self._left = left
             self._right = right
     
-    #BinaryTree class actually inherited Position class from Tree base class
+    #BinaryTree class inherits Position class from Tree class in treebase.py
     class Position(BinaryTree.Position):
         """Position class contains atributes and methods for validation"""
         def __init__(self, container, node):
