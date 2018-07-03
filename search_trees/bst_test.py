@@ -38,4 +38,15 @@ print (bst.find_position(0).value())
 rcptr = bst.find_ge(4)
 print (rcptr)
 
+#test of inorder, postorder, and preorder methods inherited 
+#from BinaryTree class
+for p in bst.inorder():
+    print (p.element()._value)
+print('-----')
+for p in bst.postorder():
+    print (p.element()._value)
+print('-----')
+for p in bst.preorder():
+    print (p.element()._value)
+
 
