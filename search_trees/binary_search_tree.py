@@ -58,10 +58,11 @@ class TreeMap(LinkedBinaryTree, MapBase):
         # the immediate smaller position will be the parent of the "left turn" position
         # when going upward. 
         else: 
-            walk = p
+            walk = p # if p is the root of the tree None will be returned
             above = self.parent(walk)
             # not None is the boundary for root node
-            # walk == self.left(above) is the marker for "left turn"
+            # walk == self.left(above) is to look for "left turn":
+            # if walk != self.left(above), that means there is left turn
             while above is not None and walk==self.left(above):
                 walk = above
                 above = self.parent(walk)
