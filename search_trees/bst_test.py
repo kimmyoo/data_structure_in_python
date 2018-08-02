@@ -45,8 +45,35 @@ for p in bst.inorder():
 print('-----')
 for p in bst.postorder():
     print (p.element()._value)
-print('-----')
+
+#def inorder_display()
+def inorder_display():
+    for p in bst.preorder():
+        print (p.element()._value)
+        if p is not None:
+            if bst.right(p) is None:
+                print("no right child")
+            else:
+                print("right child:", bst.right(p).element()._value)
+            if bst.left(p) is None:
+                print("no left child")
+            else:
+                print("left child:", bst.left(p).element()._value)
+
+print('-----test of _restructure()')
 for p in bst.preorder():
     print (p.element()._value)
-
-
+    if p.element()._value == 'c':
+        pivot = p
+    if p is not None:
+        if bst.right(p) is None:
+            print("no right child")
+        else:
+            print("right child:", bst.right(p).element()._value)
+        if bst.left(p) is None:
+            print("no left child")
+        else:
+            print("left child:", bst.left(p).element()._value)
+print('-----after _restructure(), inorder display')
+newroot = bst._restructure(pivot)
+inorder_display()

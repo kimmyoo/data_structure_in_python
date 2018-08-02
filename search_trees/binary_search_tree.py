@@ -196,21 +196,21 @@ class TreeMap(LinkedBinaryTree, MapBase):
         if make_left_child:
             parent._left = child
         else:
-            parent.right = child
+            parent._right = child
         #don't forget to link child back to parent
         if child is not None:
-            child.parent = parent
+            child._parent = parent
 
 
     def _rotate(self, p):
         "rotate p above its parent"
         x = p._node
-        y = x.parent # assume x's parent exists so rotate cannot be happening at root
-        z = y.parent # grandparent might not exist
+        y = x._parent # assume x's parent exists so rotate cannot be happening at root
+        z = y._parent # grandparent might not exist
         #if x doesn't have grandparent, x will become the root; link x' s parent to None
         if z is None:
             self._root = x
-            x.parent = None
+            x._parent = None
         #else x will become direct child of z (either right or left)
         #the following one line is brilliant. LEARN!
         else:
@@ -244,8 +244,21 @@ class TreeMap(LinkedBinaryTree, MapBase):
             self._relink(y, x._left, False)
             self._relink(x, y, True)
 
-            
-
+    def _restructure(self, x):
+        y = self.parent(x)
+        z = self.parent(y)
+        #LEARN: the following one line
+        #the condition checks both alignments by comparing 2 bool values
+        # 1. z's right child is y, y's right child is x
+        # 2. z's left child is y, y's left child is x
+        if (y == self.right(z)) == (x==self.right(y)):
+            self._rotate(y)
+            return y
+        #else needs 2 rotations at x
+        else:
+            self._rotate(x)
+            self._rotate(x)
+            return x
 
 
 
