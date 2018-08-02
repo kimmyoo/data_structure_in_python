@@ -46,8 +46,8 @@ print('-----')
 for p in bst.postorder():
     print (p.element()._value)
 
-#def inorder_display()
-def inorder_display():
+#def preorder_display()
+def preorder_display():
     for p in bst.preorder():
         print (p.element()._value)
         if p is not None:
@@ -60,7 +60,7 @@ def inorder_display():
             else:
                 print("left child:", bst.left(p).element()._value)
 
-print('-----test of _restructure()')
+print('-----test of _restructure(), before restructuring preorder display')
 for p in bst.preorder():
     print (p.element()._value)
     if p.element()._value == 'c':
@@ -74,6 +74,6 @@ for p in bst.preorder():
             print("no left child")
         else:
             print("left child:", bst.left(p).element()._value)
-print('-----after _restructure(), inorder display')
+print('-----after _restructure(), preorder display')
 newroot = bst._restructure(pivot)
-inorder_display()
+preorder_display()
