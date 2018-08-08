@@ -10,6 +10,8 @@ class LinkedBinaryTree (BinaryTree):
             self._right = right
     
     #BinaryTree class inherits Position class from Tree class in treebase.py
+    #compared with _Node object, a Position object has extra information of
+    #the node's container
     class Position(BinaryTree.Position):
         """Position class contains atributes and methods for validation"""
         def __init__(self, container, node):
@@ -28,7 +30,9 @@ class LinkedBinaryTree (BinaryTree):
             raise TypeError('p must be proper position type')
         if p._container is not self:
             raise ValueError('p doesn\'t belong to this container')
-        if p._node._parent is p._node:
+        # as a convention, if a node is deprecated, 
+        # we point its parent to itself
+        if p._node._parent is p._node: 
             raise ValueError('p is no longer valid')
         return p._node
     
@@ -39,6 +43,10 @@ class LinkedBinaryTree (BinaryTree):
         #~ else:
             #~ return None
         return self.Position(self, node) if node is not None else None
+    
+    
+    
+    
     
     #------binary tree constructor
     def __init__ (self):

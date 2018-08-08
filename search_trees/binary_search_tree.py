@@ -1,8 +1,9 @@
-"""multiple inheritance class"""
 from linkedbinarytree import LinkedBinaryTree
 from map_base import MapBase
 
 class TreeMap(LinkedBinaryTree, MapBase):
+    """Sorted map implementation using binary search tree"""
+    """multiple inheritance class"""
     #------overide Position class-------------
     class Position(LinkedBinaryTree.Position):
         def key(self):
@@ -123,7 +124,9 @@ class TreeMap(LinkedBinaryTree, MapBase):
         """assign v to k, overwrite v if k present"""
         #if tree is empty
         if self.is_empty():
-            leaf = self._add_root(self._Item(k,v)) # inherited from LinkedBinaryTree class
+            # inherited from LinkedBinaryTree class
+            # _Item(k, v) is inheritated from MapBase class
+            leaf = self._add_root(self._Item(k,v)) 
         else:
             p = self._subtree_search(self.root(), k)
             #if k is present in current tree

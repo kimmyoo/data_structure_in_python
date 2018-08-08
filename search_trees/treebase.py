@@ -36,7 +36,10 @@ class Tree:
     def is_empty(self):
         return len(self) == 0
         
-    # node's depth
+    # recursive way to find node's depth: 
+    # The depth of p is the number of 
+    # ancesters of p, excluding p itself.
+    # 一想到 height 或者 depth, 就要想到是recursive
     def depth(self, p):
         if self.is_root(p):
             return 0
