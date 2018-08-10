@@ -116,7 +116,8 @@ class LinkedBinaryTree (BinaryTree):
         old_element = node._element
         node._element = e
         return old_element
-        
+    
+    # _delete() only takes care of deletion where a node has only one child
     def _delete(self, p):
         node = self._validate(p)
         if self.num_children == 2:
@@ -124,17 +125,19 @@ class LinkedBinaryTree (BinaryTree):
         #this only test if left or right exists
         child = node._left if node._left else node._right #child might be None
         if child is not None:
-            child._parent = Node._parent # child connects to grandparent 
+            child._parent = Node._parent # connects child to grandparent (one direction)
+        #consider exception, take care of root deletion
         if node is self._root:
             self._root = child
         else:
+            # connect grandparent to left or right child (the other direction)
             parent = node._parent
-            if node is parent._left:  #deletion happens on left branch of 
+            if node is parent._left:
                 parent._left = child
             else:
                 parent._right = child
         self._size -= 1
-        node._parent = node # convention for deprecated node
+        node._parent = node # set parent to node itself, convention for deprecated node
         return node._element
     
     def _attach(self, p, t1, t2):

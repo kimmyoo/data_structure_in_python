@@ -40,6 +40,8 @@ class TreeMap(LinkedBinaryTree, MapBase):
         while self.right(walk) is not None:
             walk = self.right(walk)
         return walk
+    
+    
     #--------public accessors ----------------
     def first(self):
         return self._subtree_first_position(self.root()) if len(self)>0 else None
@@ -151,13 +153,20 @@ class TreeMap(LinkedBinaryTree, MapBase):
             yield p.key()
             p = self.after(p)
     
+    # delete() utilizes _delete() to accomplish deletion of a node. 
     def delete(self, p):
         self._validate(p)
+        #this is complex scenario where the node has two children
+        #in this case, a node with the largest key in the left subtree will 
+        #be replacing the node that needed to be deleted.
+        #the replacement node has no right child, so a _delete() operation 
+        #can happend at that node. 
         if self.left(p) and self.right(p):
             # replacement is the node with the greatest k in left substree
             replacement = self._subtree_last_position(self.left(p))
             self._replace(p, replacement.element()) # _replace is from LinkedBinaryTree class
-            p = replacement # replace position reference
+            # element of replacement node is already swapped to p, now point replacement to p
+            p = replacement
         parent = self.parent(p)
         # node p now only has one child at most
         self._delete(p) # refer to LinkedBinaryTree class
