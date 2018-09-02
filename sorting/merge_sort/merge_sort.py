@@ -75,12 +75,9 @@ print(test_list)
 
 # test of merge_sort_linked_list()
 l = LinkedQueue()
-l.enqueue(93)
-l.enqueue(3)
-l.enqueue(2)
-l.enqueue(8)
-l.enqueue(123)
-l.enqueue(1234)
+
+for ele in test_list:
+    l.enqueue(ele)
 
 s.merge_sort_linked_list(l)
 
