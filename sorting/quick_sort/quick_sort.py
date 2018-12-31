@@ -1,7 +1,7 @@
 def quick_sort(input_list):
     if len(input_list) < 2:
         return
-    
+    #select pivot element
     pivot = input_list[0]
     lt_list = []
     gt_list = []
@@ -15,7 +15,8 @@ def quick_sort(input_list):
             lt_list.append(input_list.pop(0))
         else:
             et_list.append(input_list.pop(0))
-    #conquer
+    
+    #conquer: to recursively sort each sublist out
     quick_sort(lt_list)
     quick_sort(gt_list)
     
