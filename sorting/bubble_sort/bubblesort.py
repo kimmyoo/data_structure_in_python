@@ -26,17 +26,16 @@ def optBubbleSort(inputList):
     for i in range (len_of_list - 1):
         swapped = False
         #the inner loop can be optimized when observing 
-        #that the n-th pass finds the n-th largest element and
+        #that the i-th pass finds the n-th largest element and
         #puts it into its final place, so there is no need to perform 
-        #comparison for the last n-1 elements
-        for j in range (len_of_list -1):
+        #comparison for the last i-1 elements
+        for j in range (len_of_list - i - 1):
             counter += 1
             if inputList[j] > inputList [j+1]:
                 temp = inputList[j]
                 inputList[j] = inputList[j+1]
                 inputList[j+1] = temp
                 swapped = True
-        len_of_list -= 1
         print (len_of_list)
         if not swapped:
             break
