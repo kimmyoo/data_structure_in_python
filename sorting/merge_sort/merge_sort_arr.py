@@ -10,6 +10,7 @@ def mergeSort(inputList):
     mergeSort(left)
     mergeSort(right)
     
+    #merging back 
     i = j = k = 0
     
     while i < len(left) and j < len(right):
